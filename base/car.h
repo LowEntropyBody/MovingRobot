@@ -113,9 +113,9 @@ class Car{
 
 void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 	lock_guard<mutex> guard(car_mx);
-	this.x_time = x_time;
-	this.y_time = y_time;
-	this.z_time = z_time;
+	this -> x_time = x_time;
+	this -> y_time = y_time;
+	this -> z_time = z_time;
 	if(x != 0) x_is_stop = false;
 	if(y != 0) y_is_stop = false;
 	if(z != 0) z_is_stop = false;
