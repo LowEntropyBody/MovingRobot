@@ -12,7 +12,9 @@ using namespace std;
 class Car{
 	private:
 		pthread_t pt;
-		static void* run(void* args);
+		static void* run(void* args){
+			cout<< "    in run"<< endl;
+		}
 	public:
 		Car();
 		~Car();
@@ -25,9 +27,6 @@ int Car::thread_run(){
 		cout << "  fail to create car pthread" << endl;
         exit(1);
     }
-}
-static void* Car::run(void* args){
-	cout<< "    in run"<< endl;
 }
 
 //速度模式
