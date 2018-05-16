@@ -9,7 +9,7 @@ using namespace std;
 
 class Car{
 	
-}
+};
 
 //速度模式
 class CarSpeed{
