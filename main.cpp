@@ -34,7 +34,9 @@ int main(int argc, char* argv[]){
 	init_hardwave(true,false,false,false);
 	usleep(1000*1000*2);
 	
-	car -> order(10,5,0);
+	car -> order_car(100,10,100,5,0,0);
+	usleep(1000*1000*10);
+	car -> thread_end();
 	cout << "----Main Thread End----" << endl;
 	return 0;
 }

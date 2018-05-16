@@ -125,24 +125,33 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 void Car::run(){
 	while(run_flag){
 		if(x_time == 0){
-			if(!x_is_stop)
+			if(!x_is_stop){
+				lock_guard<mutex> guard(car_mx);
+				x_is_stop = true;
 				cout << "stop car x" << endl;
+			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
 			x_time--;
 		}
 		
 		if(y_time == 0){
-			if(!y_is_stop)
+			if(!y_is_stop){
+				lock_guard<mutex> guard(car_mx);
+				y_is_stop = true;
 				cout << "stop car y" << endl;
+			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
 			y_time--;
 		} 
 		
 		if(z_time == 0){
-			if(!z_is_stop)
+			if(!z_is_stop){
+				lock_guard<mutex> guard(car_mx);
+				z_is_stop = true;
 				cout << "stop car z" << endl;
+			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
 			z_time--;
