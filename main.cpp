@@ -32,7 +32,9 @@ int init_hardwave(bool iscar, bool isband, bool islaser, bool ispan);
 int main(int argc, char* argv[]){
 	cout << "----Main Thread Start----" << endl;
 	init_hardwave(true,false,false,false);
+	usleep(1000*1000*2);
 	
+	car -> order(10,5,0);
 	cout << "----Main Thread End----" << endl;
 	return 0;
 }
