@@ -108,7 +108,7 @@ class Car{
 		~Car();
 		void thread_run();
 		void thread_end();
-		order_car(int x, int x_time, int y, int y_time, int z, int z_time);
+		void order_car(int x, int x_time, int y, int y_time, int z, int z_time);
 };
 
 void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
@@ -124,7 +124,7 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 
 void Car::run(){
 	while(run_flag){
-		if(cd2.x_time == 0){
+		if(x_time == 0){
 			if(!x_is_stop)
 				cout << "stop car x" << endl;
 		}else{
@@ -132,7 +132,7 @@ void Car::run(){
 			x_time--;
 		}
 		
-		if(cd2.y_time == 0){
+		if(y_time == 0){
 			if(!y_is_stop)
 				cout << "stop car y" << endl;
 		}else{
@@ -140,7 +140,7 @@ void Car::run(){
 			y_time--;
 		} 
 		
-		if(cd2.z_time == 0){
+		if(z_time == 0){
 			if(!z_is_stop)
 				cout << "stop car z" << endl;
 		}else{
