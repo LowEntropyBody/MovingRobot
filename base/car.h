@@ -26,7 +26,7 @@ int Car::thread_run(){
         exit(1);
     }
 }
-static void* Car::run(void* args)(){
+static void* Car::run(void* args){
 	cout<< "    in run"<< endl;
 }
 
