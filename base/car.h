@@ -7,6 +7,7 @@
 #include <vector>
 #include <thread>
 #include <unistd.h>
+#include <mutex>
 using namespace std;
 
 
@@ -88,27 +89,76 @@ void CarSpeed::move_frist_start(){
 
 
 
+
 class Car{
 	private:
-		pthread_t pt;
 		thread* t;
 		void run();
 		bool run_flag;
-		int time_count;
+		bool car_stop_flag;
+		int x_time;
+		int y_time;
+		int z_time;
+		bool x_is_stop;
+		bool y_is_stop;
+		bool z_is_stop;
+		mutex car_mx;
 	public:
 		Car();
 		~Car();
 		void thread_run();
 		void thread_end();
+		order_car(int x, int x_time, int y, int y_time, int z, int z_time);
 };
 
+void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
+	lock_guard<mutex> guard(car_mx);
+	this.x_time = x_time;
+	this.y_time = y_time;
+	this.z_time = z_time;
+	if(x != 0) x_is_stop = false;
+	if(y != 0) y_is_stop = false;
+	if(z != 0) z_is_stop = false;
+	cout << "car change moving ......" << endl;
+}
+
 void Car::run(){
-	cout << time_count << endl;
+	while(run_flag){
+		if(cd2.x_time == 0){
+			if(!x_is_stop)
+				cout << "stop car x" << endl;
+		}else{
+			lock_guard<mutex> guard(car_mx);
+			x_time--;
+		}
+		
+		if(cd2.y_time == 0){
+			if(!y_is_stop)
+				cout << "stop car y" << endl;
+		}else{
+			lock_guard<mutex> guard(car_mx);
+			y_time--;
+		} 
+		
+		if(cd2.z_time == 0){
+			if(!z_is_stop)
+				cout << "stop car z" << endl;
+		}else{
+			lock_guard<mutex> guard(car_mx);
+			z_time--;
+		} 
+		usleep(1000*200);
+	}
 }
 
 Car::Car(){
 	run_flag = true;
-	time_count = 1;
+	x_time = 0;
+	y_time = 0;
+	z_time = 0;
+	x_is_stop = true;
+	y_is_stop = true;
+	z_is_stop = true;
 }
 Car::~Car(){}
 void Car::thread_run(){
