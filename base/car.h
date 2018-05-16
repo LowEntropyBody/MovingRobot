@@ -91,7 +91,7 @@ void CarSpeed::move_frist_start(){
 class Car{
 	private:
 		pthread_t pt;
-		static void* run(void* args){
+		void* run(void* args){
 			
 			cout << time_count << endl;
 		}
@@ -108,7 +108,7 @@ Car::~Car(){}
 int Car::thread_run(){
 	run_flag = true;
 	time_count = 1;
-	if(pthread_create(&pt, NULL, Car::run, NULL) == -1){
+	if(pthread_create(&pt, NULL, this->run, NULL) == -1){
 		cout << "  fail to create car pthread" << endl;
         exit(1);
     }
