@@ -12,7 +12,7 @@ using namespace std;
 class Car{
 	private:
 		pthread_t pt;
-		void run();
+		static void* run(void* args);
 	public:
 		Car();
 		~Car();
@@ -26,7 +26,7 @@ int Car::thread_run(){
         exit(1);
     }
 }
-void Car::run(){
+static void* Car::run(void* args)(){
 	cout<< "    in run"<< endl;
 }
 
