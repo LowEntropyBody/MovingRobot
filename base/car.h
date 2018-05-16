@@ -5,7 +5,7 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
-#include <pthread.h>
+#include <thread>
 #include <unistd.h>
 using namespace std;
 
