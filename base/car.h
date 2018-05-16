@@ -9,25 +9,6 @@
 #include <unistd.h>
 using namespace std;
 
-class Car{
-	private:
-		pthread_t pt;
-		static void* run(void* args){
-			cout<< "    in run"<< endl;
-		}
-	public:
-		Car();
-		~Car();
-		int thread_run();
-};
-Car::Car(){}
-Car::~Car(){}
-int Car::thread_run(){
-	if(pthread_create(&pt, NULL, Car::run, NULL) == -1){
-		cout << "  fail to create car pthread" << endl;
-        exit(1);
-    }
-}
 
 //速度模式
 class CarSpeed{
@@ -104,5 +85,39 @@ void CarSpeed::move_frist_start(){
 	tcflush(usart_fd, TCIFLUSH);//清空in缓冲区
     tcflush(usart_fd, TCOFLUSH);//清空out缓冲区
 }
+
+
+
+class Car{
+	private:
+		pthread_t pt;
+		static void* run(void* args){
+			
+			cout << time_count << endl;
+		}
+		bool run_flag;
+		int time_count;
+	public:
+		Car();
+		~Car();
+		int thread_run();
+		int thread_end();
+};
+Car::Car(){}
+Car::~Car(){}
+int Car::thread_run(){
+	run_flag = true;
+	time_count = 1;
+	if(pthread_create(&pt, NULL, Car::run, NULL) == -1){
+		cout << "  fail to create car pthread" << endl;
+        exit(1);
+    }
+}
+void Car::thread_end(){
+	run_flag = false;
+	pthread_join(pt,NULL);
+}
+
+
 
 #endif
