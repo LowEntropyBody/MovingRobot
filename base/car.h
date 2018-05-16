@@ -98,8 +98,8 @@ class Car{
 	public:
 		Car();
 		~Car();
-		int thread_run();
-		int thread_end();
+		void thread_run();
+		void thread_end();
 };
 
 void Car::run(){
@@ -111,8 +111,8 @@ Car::Car(){
 	time_count = 1;
 }
 Car::~Car(){}
-int Car::thread_run(){
-	t = new thread(&ThreadCam::run, this);
+void Car::thread_run(){
+	t = new thread(&Car::run, this);
 }
 void Car::thread_end(){
 	run_flag = false;
