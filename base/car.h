@@ -5,11 +5,30 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <pthread.h>
+#include <unistd.h>
 using namespace std;
 
 class Car{
-	
+	private:
+		pthread_t pt;
+		void run();
+	public:
+		Car();
+		~Car();
+		int thread_run();
 };
+Car::Car(){}
+Car::~Car(){}
+int Car::thread_run(){
+	if(pthread_create(&pt, NULL, Car::run, NULL) == -1){
+		cout << "  fail to create car pthread" << endl;
+        exit(1);
+    }
+}
+void Car::run(){
+	cout<< "    in run"<< endl;
+}
 
 //速度模式
 class CarSpeed{
