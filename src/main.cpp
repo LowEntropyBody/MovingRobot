@@ -62,29 +62,27 @@ int main(int argc, char* argv[]){
 	cout << "  kcf model start init" << endl;
 	while(!kcf -> finish_init()){usleep(1000*100);}
 	cout << "  kcf model finish init" << endl;
-	/**
+	
 	while(1){
 		if(kcf -> is_get_target_data()){
 		 	Targetdata td = kcf -> get_target_data();
 		 	td.selfpt();
 			if(td.angle<0)
-				car -> order_car(0,0,0,0,-80,-td.angle/0.246);
+				car -> order_car(0,0,0,0,-50,-td.angle/0.165);
 			else
-				car -> order_car(0,0,0,0,80,td.angle/0.246);
+				car -> order_car(0,0,0,0,50,td.angle/0.165);
 		 }
-		usleep(1000*1000*1);
-	}**/
+		usleep(1000*100);
+	}
 	
-	
+	/**
 	double angle = 25;
 	if(angle<0)
 		car -> order_car(0,0,0,0,-50,100);
 	else
 		car -> order_car(0,0,0,0,50,100);
 	usleep(1000*1000*2);
-	
-	
-	usleep(1000*1000*2);
+	**/
 	kcf -> thread_end();
 	car -> thread_end();
 	cout << "----Main Thread End----" << endl;

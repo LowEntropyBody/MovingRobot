@@ -133,6 +133,7 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 	if(z != 0) z_is_stop = false;
 	cout << "car change moving ......" << endl;
 	//z=80 ->246¶È/s  0.246/ms
+	//z=50 ->165¶È/s  0.165/ms
 	cs -> speed_x_y_z(x,y,z);
 }
 

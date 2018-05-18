@@ -1,4 +1,4 @@
 cd ..
 git pull
-cd bulid
+cd build
 make
