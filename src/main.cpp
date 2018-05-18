@@ -66,7 +66,10 @@ int main(int argc, char* argv[]){
 		if(kcf -> is_get_target_data()){
 		 	Targetdata td = kcf -> get_target_data();
 		 	td.selfpt();
-		 	car -> order_car(0,0,0,0,80,td.angle/0.246);
+			if(td.angle<0)
+				car -> order_car(0,0,0,0,-80,-td.angle/0.246);
+			else
+				car -> order_car(0,0,0,0,80,td.angle/0.246);
 		 }
 		usleep(1000);
 	}
