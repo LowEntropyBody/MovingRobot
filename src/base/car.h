@@ -132,6 +132,7 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 	if(y != 0) y_is_stop = false;
 	if(z != 0) z_is_stop = false;
 	cout << "car change moving ......" << endl;
+	//z=80 ->246¶È/s  0.246/ms
 	cs -> speed_x_y_z(x,y,z);
 }
 
@@ -184,13 +185,13 @@ void Car::run(){
 				lock_guard<mutex> guard(car_mx);
 				z_is_stop = true;
 				cs -> speed_x_y_z(x_speed, y_speed, 0);
-				//cout << "stop car z" << endl;
+				cout << "stop car z" << endl;
 			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
 			z_time--;
 		} 
-		usleep(1000*50);
+		usleep(1000);
 	}
 }
 
