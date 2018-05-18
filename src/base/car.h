@@ -191,7 +191,7 @@ void Car::run(){
 			lock_guard<mutex> guard(car_mx);
 			z_time--;
 		} 
-		usleep(1000);
+		usleep(1000*10);
 	}
 }
 
