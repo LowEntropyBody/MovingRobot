@@ -1,2 +1,4 @@
-../git pull
+cd ..
+git pull
+cd bulid
 make
