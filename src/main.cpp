@@ -35,26 +35,30 @@ ImgKCF* kcf = NULL;
 int init_hardware(bool iscar, bool iskcf, bool isband, bool islaser, bool ispan);
 
 int main(int argc, char* argv[]){
-	cpu_set_t mask_k;
-    cpu_set_t get_k;
-    int num = sysconf(_SC_NPROCESSORS_CONF);
-	int cpu_k = 4;
-	CPU_ZERO(&mask_k);
-    CPU_SET(cpu_k, &mask_k);
-    if (pthread_setaffinity_np(pthread_self(), sizeof(mask_k), &mask_k) < 0) {
-    	std::cout << "Fails to set the CPU to run the main thread" << std::endl;
-    }
-    CPU_ZERO(&get_k);
-    if (pthread_getaffinity_np(pthread_self(), sizeof(get_k), &get_k) < 0) {
-       std::cout << "Fails to get the CPU of the main thread" << std::endl;
-    }
-    for (int k = 0; k < num; k++) {
-        if (CPU_ISSET(k, &get_k)) {
-            std::cout << "the main thread " << (int)pthread_self() <<" is running in CPU " << k << std::endl;
-        }
-    }
+	{
+		cpu_set_t mask_k;
+		cpu_set_t get_k;
+		int num = sysconf(_SC_NPROCESSORS_CONF);
+		int cpu_k = 0;
+		CPU_ZERO(&mask_k);
+		CPU_SET(cpu_k, &mask_k);
+		if (pthread_setaffinity_np(pthread_self(), sizeof(mask_k), &mask_k) < 0) {
+			std::cout << "Fails to set the CPU to run the main thread" << std::endl;
+		}
+		CPU_ZERO(&get_k);
+		if (pthread_getaffinity_np(pthread_self(), sizeof(get_k), &get_k) < 0) {
+			std::cout << "Fails to get the CPU of the main thread" << std::endl;
+		}
+		for (int k = 0; k < num; k++) {
+			if (CPU_ISSET(k, &get_k)) {
+				std::cout << "the main thread " << (int)pthread_self() <<" is running in CPU " << k << std::endl;
+			}
+		}
+	}
 	cout << "----Main Thread Start----" << endl;
-	init_hardware(true, true, false, false, false);
+	init_hardware(true, false, false, false, false);
+	
+	/**
 	kcf -> start_init();
 	cout << "  kcf model start init" << endl;
 	while(!kcf -> finish_init()){usleep(1000*100);}
@@ -68,7 +72,8 @@ int main(int argc, char* argv[]){
 		usleep(1000);
 	}
 	
-	kcf -> thread_end();
+	kcf -> thread_end();**/
+	car -> order_car(0,0,0,0,50,20);
 	car -> thread_end();
 	cout << "----Main Thread End----" << endl;
 	return 0;

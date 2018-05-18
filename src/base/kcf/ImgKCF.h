@@ -167,7 +167,7 @@ void ImgKCF::start_init(){
 
 ImgKCF::ImgKCF(){
 	// 打开摄像头
-	capture.open(0);
+	capture.open(2);
 	if (!capture.isOpened()){ cerr << "  ERROR: Fails to open the camera!" << endl; exit(-1);}
 	capture >> imgFrame;
 	// 初始化
