@@ -6,6 +6,7 @@
 **  Date: 2018/4
 */
 #include "base/car.h"
+#include "base/kcf/ImgKCF.h"
 #include <math.h>
 #include <iostream>
 #include <vector>
@@ -17,35 +18,54 @@ using namespace std;
 	全局变量，用于控制底盘
 **/
 Car* car = NULL;
-
+/**
+	全局变量，用于识别
+**/
+ImgKCF* kcf = NULL;
 
 /**
 	功能：控制硬件初始化
 	参数：iscar -> 启动底盘
+		  iskcf -> 启动识别
 	      isband -> 启动蓝牙手环
 		  islaser -> 启动蓝牙激光
 		  ispan -> 启动云台
 	返回：成功返回0，失败-1
 **/
-int init_hardwave(bool iscar, bool isband, bool islaser, bool ispan);
+int init_hardware(bool iscar, bool iskcf, bool isband, bool islaser, bool ispan);
 
 int main(int argc, char* argv[]){
 	cout << "----Main Thread Start----" << endl;
-	init_hardwave(true,false,false,false);
-	usleep(1000*1000*2);
+	init_hardware(true, true, false, false, false);
+	kcf -> start_init();
+	cout << "  kcf model start init" << endl;
+	while(kcf -> finish_init()){usleep(1000*1000*100);}
+	cout << "  kcf model finish init" << endl;
+	while(1){
+		if(kcf -> is_get_target_data()){
+			Targetdata td = kcf -> get_target_data();
+			td.selfpt();
+			car -> order_car(100,5,11,7,672,22);
+		}
+		usleep(1000*1000*10);
+	}
 	
-	car -> order_car(100,10,100,5,0,0);
-	usleep(1000*1000*10);
-	car -> thread_end();
+	kcf.thread_end();
+	car.thread_end();
 	cout << "----Main Thread End----" << endl;
 	return 0;
 }
 
-int init_hardwave(bool iscar, bool isband, bool islaser, bool ispan){
+int init_hardware(bool iscar, bool iskcf, bool isband, bool islaser, bool ispan){
 	if(iscar){
 		car = new Car();
 		car -> thread_run();
 		cout << "  car init success" << endl;
+	}
+	if(iskcf){
+		kcf = new ImgKCF();
+		kcf -> thread_run();
+		cout << "  kcf init success" << endl;
 	}
 	if(isband){
 		
