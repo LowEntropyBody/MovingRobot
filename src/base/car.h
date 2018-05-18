@@ -206,7 +206,6 @@ Car::Car(){
 	y_is_stop = true;
 	z_is_stop = true;
 	cs = new CarSpeed();
-	cs -> first_start();
 	cs -> move_frist_start();
 }
 Car::~Car(){}
