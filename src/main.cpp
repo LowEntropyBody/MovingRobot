@@ -56,9 +56,8 @@ int main(int argc, char* argv[]){
 		}
 	}
 	cout << "----Main Thread Start----" << endl;
-	init_hardware(true, false, false, false, false);
-	
-	/**
+	init_hardware(true, true, false, false, false);
+
 	kcf -> start_init();
 	cout << "  kcf model start init" << endl;
 	while(!kcf -> finish_init()){usleep(1000*100);}
@@ -67,14 +66,12 @@ int main(int argc, char* argv[]){
 		if(kcf -> is_get_target_data()){
 		 	Targetdata td = kcf -> get_target_data();
 		 	td.selfpt();
-		 	car -> order_car(100,5,11,7,672,22);
+		 	car -> order_car(0,0,0,0,80,td.angle/0.246);
 		 }
 		usleep(1000);
 	}
 	
-	kcf -> thread_end();**/
-	car -> order_car(0,0,0,0,80,20);
-	usleep(1000*1000*5);
+	kcf -> thread_end();
 	car -> thread_end();
 	cout << "----Main Thread End----" << endl;
 	return 0;
