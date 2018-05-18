@@ -74,6 +74,7 @@ int main(int argc, char* argv[]){
 	
 	kcf -> thread_end();**/
 	car -> order_car(0,0,0,0,50,20);
+	usleep(1000*1000*5);
 	car -> thread_end();
 	cout << "----Main Thread End----" << endl;
 	return 0;
