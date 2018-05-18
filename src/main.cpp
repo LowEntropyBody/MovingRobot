@@ -71,7 +71,7 @@ int main(int argc, char* argv[]){
 			else
 				car -> order_car(0,0,0,0,-80,td.angle/0.246);
 		 }
-		usleep(1000);
+		usleep(1000*1000*1);
 	}
 	
 	kcf -> thread_end();
