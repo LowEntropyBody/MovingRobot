@@ -46,7 +46,12 @@ CarSpeed::CarSpeed(){
 	
 }
 void CarSpeed::speed_x_y_z(int x, int y, int z){
-	char ch[10] = {0xff,0xfe,1,0,0,0,0,0,0,0x00};
+	//char ch[10] = {0xff,0xfe,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+	char ch[10] = {0,0,0,0,0,0,0,0,0,0};
+	ch[0] = 0xff;
+	ch[1] = 0xfe;
+	ch[2] = 0x01;
+
 	char direction = 0x00;
 	if(x < 0){
 		direction += 4;
@@ -123,12 +128,30 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 }
 
 void Car::run(){
+	cpu_set_t mask_k;
+    cpu_set_t get_k;
+    int num = sysconf(_SC_NPROCESSORS_CONF);
+	int cpu_k = 3;
+	CPU_ZERO(&mask_k);
+    CPU_SET(cpu_k, &mask_k);
+    if (pthread_setaffinity_np(pthread_self(), sizeof(mask_k), &mask_k) < 0) {
+    	std::cout << "Fails to set the CPU to run the car thread" << std::endl;
+    }
+    CPU_ZERO(&get_k);
+    if (pthread_getaffinity_np(pthread_self(), sizeof(get_k), &get_k) < 0) {
+       std::cout << "Fails to get the CPU of the car thread" << std::endl;
+    }
+    for (int k = 0; k < num; k++) {
+        if (CPU_ISSET(k, &get_k)) {
+            std::cout << "the car thread " << (int)pthread_self() <<" is running in CPU " << k << std::endl;
+        }
+    }
 	while(run_flag){
 		if(x_time == 0){
 			if(!x_is_stop){
 				lock_guard<mutex> guard(car_mx);
 				x_is_stop = true;
-				cout << "stop car x" << endl;
+				//cout << "stop car x" << endl;
 			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
@@ -139,7 +162,7 @@ void Car::run(){
 			if(!y_is_stop){
 				lock_guard<mutex> guard(car_mx);
 				y_is_stop = true;
-				cout << "stop car y" << endl;
+				//cout << "stop car y" << endl;
 			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
@@ -150,7 +173,7 @@ void Car::run(){
 			if(!z_is_stop){
 				lock_guard<mutex> guard(car_mx);
 				z_is_stop = true;
-				cout << "stop car z" << endl;
+				//cout << "stop car z" << endl;
 			}
 		}else{
 			lock_guard<mutex> guard(car_mx);
