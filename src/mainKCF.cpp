@@ -122,7 +122,7 @@ void imgKCF(){
 	float peak_last = 0.0;
 
 	// test
-//	namedWindow("img", WINDOW_AUTOSIZE);
+	// namedWindow("img", WINDOW_AUTOSIZE);
 	waitKey(1000);
 
 	while (!systemExit) {
@@ -134,11 +134,11 @@ void imgKCF(){
 		ind_r = atoi(write_str.c_str());
 
 		if(ind_r > 2){
-			ind_k = ind_r - 2;
+			ind_k = ind_r-2;
 		}else if(ind_r == 2){
-			ind_k = IMG_NUM;
-		}else{
 			ind_k = IMG_NUM-1;
+		}else{
+			ind_k = IMG_NUM-2;
 		}
 
 		str_k << img_path << ind_k << img_format;
@@ -148,9 +148,9 @@ void imgKCF(){
 		result = imgTrackerKCF.update(imgFrame);
 
 		// test
-	//	rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
-	//	imshow("img", imgFrame); 
-	//	waitKey(1);
+		// rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
+		// imshow("img", imgFrame); 
+		// waitKey(1);
 
 		// fps
 		if((++img_index)% 10 == 0){
@@ -206,7 +206,8 @@ int main(int argc, char* argv[]) {
 
 	 pid_video_main = fork();
 	 if(pid_video_main == -1) {std::cerr << "ERROR: Fails to start the new process!" << std::endl; exit(EXIT_FAILURE);}
-	 else if(pid_video_main == 0){
+	 else if(pid_video_main == 0)
+	 {
 
 		//识别主进程开始//
 		pid_read = fork();
