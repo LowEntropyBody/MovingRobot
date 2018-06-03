@@ -286,11 +286,26 @@ void move_fun(){
 					//printf("%s\n", outs[2].c_str());
 					//printf("%s\n", outs[3].c_str());
 
+
 					angle = (float)atoi(outs[3].c_str()) / FRAME_W * VIEW_ANGLE - (float)VIEW_ANGLE / 2.0;
 					cout << "angle = " << angle <<endl;
+					if(angle < -5|| angle > 5){
+						if(angle < 0){
+							angle = - angle;
+							car -> order(0,0,0,-50,angel/1.65);
+						}else{
+							car -> order(0,0,0,50,angel/1.65);
+						}
+
+					}else{
+						printf("in mid\n");
+						car -> order(0,0,0,0,0);
+					}
 
 				}else{
 					printf("not found\n");
+					car -> order(0,0,0,0,0);
+					break;
 				}
 			}
 		}
