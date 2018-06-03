@@ -125,7 +125,7 @@ void imgKCF(){
 	float peak_last = 0.0;
 
 	// test
-	namedWindow("img", WINDOW_AUTOSIZE);
+	// namedWindow("img", WINDOW_AUTOSIZE);
 	waitKey(1000);
 
 	while (!systemExit) {
@@ -155,9 +155,9 @@ void imgKCF(){
 		result = imgTrackerKCF.update(imgFrame);
 
 		// test
-		rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
-		imshow("img", imgFrame); 
-		waitKey(1);
+		// rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
+		// imshow("img", imgFrame); 
+		// waitKey(1);
 
 		// fps
 		if((++img_index)% 10 == 0){
