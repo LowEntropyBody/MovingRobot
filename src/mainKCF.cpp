@@ -15,7 +15,7 @@
 #define FRAME_H 240
 #define MS 1000
 #define VIEW_ANGLE 80
-#define IMG_NUM 10
+#define IMG_NUM 30
 
 using namespace std;
 using namespace cv;
@@ -99,7 +99,7 @@ void imgRead(){
 		// // test
 		// printf("READ index = %d, ind = %d\n", read_index++, write_index);
 			
-		if(++write_index == 10) write_index = 1;
+		if(++write_index == IMG_NUM) write_index = 1;
 
 	}
 
@@ -133,12 +133,14 @@ void imgKCF(){
 		pcomm.pread_s(write_str);
 		ind_r = atoi(write_str.c_str());
 
-		if(ind_r > 2){
-			ind_k = ind_r-2;
-		}else if(ind_r == 2){
+		if(ind_r > 3){
+			ind_k = ind_r-3;
+		}else if(ind_r == 3){
 			ind_k = IMG_NUM-1;
-		}else{
+		}else if(ind_r == 2){
 			ind_k = IMG_NUM-2;
+		}else{
+			ind_k = IMG_NUM-3;
 		}
 
 		str_k << img_path << ind_k << img_format;
