@@ -292,19 +292,19 @@ void move_fun(){
 					if(angle < -5|| angle > 5){
 						if(angle < 0){
 							angle = - angle;
-							car -> order(0,0,0,-50,angel/1.65);
+							car -> order_car(0,0,0,-50,angle/1.65);
 						}else{
-							car -> order(0,0,0,50,angel/1.65);
+							car -> order_car(0,0,0,50,angle/1.65);
 						}
 
 					}else{
 						printf("in mid\n");
-						car -> order(0,0,0,0,0);
+						car -> order_car(0,0,0,0,0);
 					}
 
 				}else{
 					printf("not found\n");
-					car -> order(0,0,0,0,0);
+					car -> order_car(0,0,0,0,0);
 					break;
 				}
 			}
