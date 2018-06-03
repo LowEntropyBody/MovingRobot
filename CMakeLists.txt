@@ -9,6 +9,8 @@ project(kcf_project)
 # via the command line or GUI
 find_package(OpenCV REQUIRED)
 
+ADD_DEFINITIONS("-std=c++0x -O3")
+
 # If the package has been found, several variables will
 # be set, you can find the full list with descriptions
 # in the OpenCVConfig.cmake file.

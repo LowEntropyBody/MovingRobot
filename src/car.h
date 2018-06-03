@@ -21,6 +21,7 @@ class CarSpeed{
 		void move(double degree, double distance, double base_speed);
 		
 };
+
 void CarSpeed::move(double degree, double distance, double base_speed){
 	degree = degree / 180 * 3.1415926;
 	double x = - distance * sin(degree);
@@ -39,12 +40,13 @@ void CarSpeed::move(double degree, double distance, double base_speed){
 	if(x < 0) x = -x_abs; else x = x_abs;
 	if(y < 0) y = -y_abs; else y = y_abs;
 	cout << x << ",," << y << endl;
-	speed_x_y_z(x, y, 0);
-	
+	speed_x_y_z(x, y, 0);	
 }
+
 CarSpeed::CarSpeed(){
 	
 }
+
 void CarSpeed::speed_x_y_z(int x, int y, int z){
 	//char ch[10] = {0xff,0xfe,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 	char ch[10] = {0,0,0,0,0,0,0,0,0,0};
@@ -138,7 +140,7 @@ void Car::order_car(int x, int x_time, int y, int y_time, int z, int z_time){
 }
 
 void Car::run(){
-	cpu_set_t mask_k;
+/*	cpu_set_t mask_k;
     cpu_set_t get_k;
     int num = sysconf(_SC_NPROCESSORS_CONF);
 	int cpu_k = 3;
@@ -155,7 +157,7 @@ void Car::run(){
         if (CPU_ISSET(k, &get_k)) {
             std::cout << "the car thread " << (int)pthread_self() <<" is running in CPU " << k << std::endl;
         }
-    }
+    }*/
 	while(run_flag){
 		if(x_time == 0){
 			if(!x_is_stop){
@@ -210,15 +212,16 @@ Car::Car(){
 	cs = new CarSpeed();
 	cs -> move_frist_start();
 }
+
 Car::~Car(){}
+
 void Car::thread_run(){
 	t = new thread(&Car::run, this);
 }
+
 void Car::thread_end(){
 	run_flag = false;
 	t->join();
 }
-
-
 
 #endif
