@@ -107,54 +107,98 @@ void imgRead(){
 }
 
 
-void imgKCF(){
+// void imgKCF(){
 
-	int ind_r = 1;
-	int ind_k = 1;
+	// int ind_r = 1;
+	// int ind_k = 1;
+	// int img_index = 0; 
+	// float fps_k = 0.0;
+	// string write_str;
+	// clock_t t_start=clock(), t_end, t_diff;
+	// float cx, cy;
+	// float cx_r=0.5, cy_r=0.5;
+	// bool isFind = true;
+
+	// float peak_last = 0.0;
+
+	// // test
+	// // namedWindow("img", WINDOW_AUTOSIZE);
+	// waitKey(2000);
+
+	// while (!systemExit) {
+
+	// 	// read
+	// 	stringstream str_k;
+	// 	vector<string> outputs;
+	// 	pcomm.pread_s(write_str);
+	// 	ind_r = atoi(write_str.c_str());
+
+	// 	if(ind_r > 3){
+	// 		ind_k = ind_r-3;
+	// 	}else if(ind_r == 3){
+	// 		ind_k = IMG_NUM-1;
+	// 	}else if(ind_r == 2){
+	// 		ind_k = IMG_NUM-2;
+	// 	}else{
+	// 		ind_k = IMG_NUM-3;
+	// 	}
+
+	// 	str_k << img_path << ind_k << img_format;
+	// 	imgFrame = imread(str_k.str());	
+
+	// 	// update	
+	// 	result = imgTrackerKCF.update(imgFrame);
+
+	// 	// test
+	// 	// rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
+	// 	// imshow("img", imgFrame); 
+	// 	// waitKey(1);
+
+	// 	// fps
+	// 	if((++img_index)% 10 == 0){
+	// 		t_end = clock(); 
+	// 		t_diff = t_end - t_start;
+	// 		fps_k = CLOCKS_PER_SEC * 10.0 / (float)t_diff;
+	// 		printf("KCF frame: %d, fps: %f\n", img_index, fps_k);
+	// 		t_start = clock();
+	// 	}
+
+
+	// 	// calculates the output
+	// 	cx = result.x + result.width/2.0;
+	// 	cy = result.y + result.height/2.0;
+	// 	cx_r = (float)cx / (float)FRAME_W;
+	// 	cy_r = (float)cy / (float)FRAME_H;
+	// 	if(imgTrackerKCF.peak_value < peak_last*0.85 || imgTrackerKCF.peak_value < 0.25 || cx_r<0.10||cx_r>0.90||cy_r<0.10||cy_r>0.90 || ((float)result.width) > (target.width*1.5)) {isFind = false;}
+	// 	else {isFind = true;}
+
+	// 	peak_last = imgTrackerKCF.peak_value;
+
+	// 	// writes the output into file
+	// 	outputs.push_back(to_string(isFind));
+	// 	outputs.push_back(to_string(img_index));
+	// 	outputs.push_back(to_string(result.width));
+	// 	outputs.push_back(to_string(cx));
+	// 	pcomm_m.pwrite(outputs);
+
+	// }
+	//return;
+//}
+
+void imgKCF(){
 	int img_index = 0; 
 	float fps_k = 0.0;
-	string write_str;
 	clock_t t_start=clock(), t_end, t_diff;
 	float cx, cy;
 	float cx_r=0.5, cy_r=0.5;
 	bool isFind = true;
+	vector<string> outputs;
 
 	float peak_last = 0.0;
 
-	// test
-	// namedWindow("img", WINDOW_AUTOSIZE);
-	waitKey(1000);
-
 	while (!systemExit) {
-
-		// read
-		stringstream str_k;
-		vector<string> outputs;
-		pcomm.pread_s(write_str);
-		ind_r = atoi(write_str.c_str());
-
-		if(ind_r > 3){
-			ind_k = ind_r-3;
-		}else if(ind_r == 3){
-			ind_k = IMG_NUM-1;
-		}else if(ind_r == 2){
-			ind_k = IMG_NUM-2;
-		}else{
-			ind_k = IMG_NUM-3;
-		}
-
-		str_k << img_path << ind_k << img_format;
-		imgFrame = imread(str_k.str());	
-
-		// update	
+		capture >> imgFrame;
 		result = imgTrackerKCF.update(imgFrame);
-
-		// test
-		// rectangle(imgFrame, Point(result.x, result.y), Point(result.x + result.width, result.y + result.height), Scalar(0, 255, 255), 1, 8);
-		// imshow("img", imgFrame); 
-		// waitKey(1);
-
-		// fps
 		if((++img_index)% 10 == 0){
 			t_end = clock(); 
 			t_diff = t_end - t_start;
@@ -180,7 +224,6 @@ void imgKCF(){
 		outputs.push_back(to_string(result.width));
 		outputs.push_back(to_string(cx));
 		pcomm_m.pwrite(outputs);
-
 	}
 
 	return;
@@ -212,25 +255,27 @@ int main(int argc, char* argv[]) {
 	 {
 
 		//识别主进程开始//
-		pid_read = fork();
-		if(pid_read == -1) {std::cerr << "ERROR: Fails to start the new process!" << std::endl; exit(EXIT_FAILURE);}
-		else if(pid_read == 0){
+		// pid_read = fork();
+		// if(pid_read == -1) {std::cerr << "ERROR: Fails to start the new process!" << std::endl; exit(EXIT_FAILURE);}
+		// else if(pid_read == 0){
 
-			//read进程开始//
-			imgRead();
-			return EXIT_SUCCESS;
-			//read进程结束//
+		// 	//read进程开始//
+		// 	imgRead();
+		// 	return EXIT_SUCCESS;
+		// 	//read进程结束//
 
-		}else{
-			//kcf进程开始//
-			imgKCF();
-			// test
-			// while(true);
-			return EXIT_SUCCESS;
-			//kcf进程结束//
-		}
-		return EXIT_SUCCESS;
-		//识别主进程结束//
+		// }else{
+		// 	//kcf进程开始//
+		// 	imgKCF();
+		// 	// test
+		// 	// while(true);
+		// 	return EXIT_SUCCESS;
+		// 	//kcf进程结束//
+		// }
+		// return EXIT_SUCCESS;
+		// //识别主进程结束//
+
+		imgKCF();
 	
 	 }
 	 else{
